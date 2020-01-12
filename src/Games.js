@@ -1,99 +1,118 @@
-  
-import React from 'react'
+import React, { useState } from 'react';
+import { Paper, Grid, Typography, Tooltip } from '@material-ui/core';
 import Modal from './tooltip2';
-import Axios from 'axios';
-import { Card, Typography } from '@material-ui/core';
+import axios from "axios";
+import './style2.css';
 
-export default function Games() {
-
-    const [data , setdata] = React.useState([]);
-    const [hTeam , setHteam] = React.useState({});
-    const [vTeam , setVteam] = React.useState({});
-    const [open, setOpen] = React.useState(false);
-    const [ai , setAi] = React.useState({});
-
-
-    const handleHteam = (e)=>{
-        setHteam(e);
-    }
-
-    const handleVteam = (e)=>{
-        setVteam(e);
-    }
-
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleAi = (e) =>{
-        setAi(e)
-    }
-
-    React.useEffect(()=>{
-        fetch('https://www.balldontlie.io/api/v1/games?per_page=100')
-            .then(res => res.json())
-            .then(json => {
-                this.setState({
-                    items: json.data,
-                    isLoaded: true, 
-                })
-            }).catch((err) => {
-                console.log(err);
-            });
-    },[])
-
-      const toDate = (x)=>{
-        let date = new Date(x);
-        return date.toUTCString();
-      }
-
-    if(data.length!==0){
+function Load() 
+{
     return (
-        <React.Fragment>
-            <Modal open={open} handleClose={handleClose} home_team={hTeam} visitor_team={vTeam} all={ai} />
-            <Card  style={{marginTop: 10 , marginBottom : 20}}  >
-                {
-                    data.map(eachTeam=>{
-                        return(
-                            <div key={eachTeam.id} style={{cursor : "pointers"}}  
-                                onClick={
-                                    ()=>{
-                                        handleHteam(eachTeam.home_team);
-                                        handleVteam(eachTeam.visitor_team);
-                                        handleAi(eachTeam);
-                                        handleClickOpen();
-                                    }
-                                }
-                            >
-                                    <Typography component="h3" variant="h6">
-                                       {
-                                          toDate(eachTeam.date).slice(0,16)
-                                       }
-                                    </Typography> 
-                                    <Typography>
-                                        {eachTeam.status}
-                                    </Typography>
-                            </div> 
-                        )
-                    })
-                }
-            </Card>
-            
-
-        </React.Fragment>
+        <Grid team lg={3} md={4} xs={12} style={{ marginTop: "10 auto" }}>
+            <Typography style={{ margin:"40px 40px 40px 40px", textAlign: "center" }} variant="h2">
+                Loading...
+            </Typography>
+        </Grid>
     )
+}
+
+function Games() 
+{
+    const [data, setData] = useState(["Loading"]);
+
+    let [modalOpen, setModalOpen] = useState(() => {
+        let temp = {};
+        for (let i=0; i<100; i++)
+            temp = {...temp, [i]: false};
+        return temp;
+    });
+
+
+
+    function openModal(e,idx)
+     {
+        e.stopPropagation();
+        console.log("openModal");
+        const temp = {...modalOpen, [idx]: true};
+        setModalOpen(temp);
     }
-    else{
-        return(
-             <React.Fragment>
-                <Typography variant="h2" component="h5">
-                    Loading...
-                </Typography>
-            </React.Fragment>
-        )
+    
+    function closeModal(idx) 
+    {
+        console.log("closeModal");
+        const temp = {...modalOpen, [idx]: false};
+        setModalOpen(temp);
     }
-}   
+
+    if (data[0] == "Loading")
+        axios.get("https://www.balldontlie.io/api/v1/games?per_page=100")
+            .then(res => setData(res.data.data));
+    return (
+        <Paper>
+            <Grid container wrap="wrap" style={{ textAlign: "center" }} spacing={2}>
+                {
+                    data[0] == "Loading" ? <Load /> :
+                        data.map((game, idx) => {
+                            return (
+                                <Grid team md={4} lg={3} xs={12} key={idx} onClick={(e) => {return openModal(e,idx)}}>
+                                    <div className="Team">
+                
+        
+                <ul id="item">
+                 <li id="first" key={game.id} style={{cursor : "pointers"}} >
+                
+                
+
+                
+{ 
+Array[0] = "Sun",
+Array[1] = "Mon",
+Array[2] = "Tues",
+Array[3] = "Wed",
+Array[4] = "Thur",
+Array[5] = "Fri",
+Array[6] = "Sat",               
+Array[new Date(game.date).getDay()+1]
+}
+                {","}
+                {new Date(game.date).getDate()+1}
+{
+Array[0] = "January",
+Array[1] = "February",
+Array[2] = "March",
+Array[3] = "April",
+Array[4] = "May",
+Array[5] = "June",    
+Array[6] = "July",
+Array[7] = "August",
+Array[8] = "September",
+Array[9] = "October",
+Array[10] = "November",
+Array[11] = "December",               
+Array[new Date(game.date).getMonth()]
+}                    
+               {""}{""}
+               {new Date(game.date).getFullYear()}
+               </li>
+              
+               <br/> <li id="second">
+               {new Date(game.date).getHours()}
+               {":"}
+               {new Date(game.date).getMinutes()}
+               {" pm ET"}
+                
+                </li>
+                 </ul>
+            
+        </div>
+
+                                    <Modal data={game} open={modalOpen[idx]} close={() => {return closeModal(idx)}}/>
+                                </Grid>
+                            );
+                        })
+                }
+            </Grid>
+        </Paper>
+    )
+}
+
+export default Games;
