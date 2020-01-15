@@ -7,8 +7,8 @@ import './style2.css';
 function Load() 
 {
     return (
-        <Grid team lg={3} md={4} xs={12} style={{ marginTop: "10 auto" }}>
-            <Typography style={{ margin:"40px 40px 40px 40px", textAlign: "center" }} variant="h2">
+        <Grid team lg={3} style={{ marginTop: "2 auto" }}>
+            <Typography style={{ margin:"20px 20px 20px 20px", textAlign: "center" }} variant="h2">
                 Loading...
             </Typography>
         </Grid>
@@ -47,7 +47,7 @@ function Games()
         axios.get("https://www.balldontlie.io/api/v1/games?per_page=100")
             .then(res => setData(res.data.data));
     return (
-        <Paper>
+        <Paper style={{marginTop:"1%"}}>
             <Grid container wrap="wrap" style={{ textAlign: "center" }} spacing={2}>
                 {
                     data[0] == "Loading" ? <Load /> :

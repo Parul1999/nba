@@ -1,10 +1,11 @@
 import React from 'react';
-import './style2.css'
+import './style.css'
 import {
     Card, CardText, CardBody,
     CardTitle
   } from 'reactstrap';
   import Tool from './tooltip';
+  import { Paper, Grid, Typography, Tooltip } from '@material-ui/core';
 class Teams extends React.Component {
 
     constructor(props) {
@@ -40,9 +41,14 @@ class Teams extends React.Component {
         const { isLoaded, items } = this.state;
 
         if (!isLoaded)
-            return <div>Loading...</div>;
+            return (
+                <Paper><Grid team lg={3} style={{ marginTop: "10 auto" }}>
+            <Typography style={{ margin:"40px 40px 40px 40px", textAlign: "center" }} variant="h2">
+                Loading...
+            </Typography>
+        </Grid></Paper> )
            
-        return ( 
+        return ( <Paper>
             <div className="Team">
               
                     {items.map(item => ( 
@@ -63,7 +69,7 @@ class Teams extends React.Component {
                   ))}
                 
             </div>
-            
+            </Paper>
         );
 
     }

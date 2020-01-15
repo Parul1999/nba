@@ -5,25 +5,39 @@ import { Dialog, DialogContent, Grid, Typography, DialogTitle, Button } from '@m
 function Modal(props) {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     const { data } = props;
+
     function handleClose(e) {
         e.stopPropagation();
         props.close();
     }
+
+
+    function timeFormats(string){
+        return new Date(string).toLocaleTimeString([]);
+    }
+
+    function dateFormats(string){
+        var options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(string).toLocaleDateString([],options);
+    }
+    
+    
+
     return (
         <Dialog open={props.open} onClose={handleClose}>
             <DialogTitle style={{textAlign: "center"}}>
-                <Typography variant="h4" style={{color: "#f16d32"}}>
-                    Game Description
-                    <Typography variant="subheading">
-                        {(new Date(data.date)).toLocaleDateString("latn", options)}
+                <Typography variant="h4" style={{color: "#F86E1D"}}>
+                    Game Description<br /> 
+                    <Typography variant="subheading" style={{color: "#000000", fontSize: "18px"}}>
+                        <p><b>{dateFormats(data.date)} ({timeFormats(data.date)} ET) </b></p>
                     </Typography>
                 </Typography>
             </DialogTitle>
-            <DialogContent style={{margin: "0 auto", padding: "4rem"}} contentStyle={{width: "100%", maxWidth: "none"}}>
-                <Grid container justify="center" spacing="40">
-                    <Grid item lg={6} md={6} xs={12}>
+            <DialogContent style={{margin: "0 auto", padding: "20px 150px 20px 150px"}} contentStyle={{width: "100%", maxWidth: "none"}}>
+                <Grid container justify="center" spacing="100">
+                    <Grid item lg={6} md={6} xs={12} style={{marginLeft: "-20px"}}>
                         <Typography variant="h5">
-                            Home Team
+                            <p><b>Home Team</b></p>
                         </Typography>
                         <p>{data.home_team.full_name} ({data.home_team.abbreviation})</p>
                         <p><b>City</b>: {data.home_team.city}</p>
@@ -33,7 +47,7 @@ function Modal(props) {
                     </Grid>
                     <Grid item lg={6} md={6} xs={12}>
                         <Typography variant="h5">
-                            Visitor Team
+                            <p><b> Visitor Team</b></p>
                         </Typography>
                         <p>{data.visitor_team.full_name} ({data.visitor_team.abbreviation})</p>
                         <p><b>City</b>: {data.visitor_team.city}</p>
@@ -43,7 +57,7 @@ function Modal(props) {
                     </Grid>
                 </Grid>
                 <Grid container justify="center">
-                <Button size="large" style={{ background: "#60cb5c", color: "white" }} onClick={handleClose}>Close</Button>
+                    <Button size="large" style={{ background: "#60cb5c", color: "white" }} onClick={handleClose}>Close</Button>
                 </Grid>
             </DialogContent>
         </Dialog>
