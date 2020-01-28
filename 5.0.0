@@ -1,0 +1,9 @@
+
+> swiper@5.2.1 postinstall C:\Users\PARUL\AppData\Roaming\npm\node_modules\swiper
+> node -e "console.log('\u001b[35m\u001b[1mLove Swiper? Support Vladimir\'s work by donating or pledging on patreon:\u001b[22m\u001b[39m\n > \u001b[32mhttps://patreon.com/vladimirkharlampidi\u001b[0m\n')"
+
+[35m[1mLove Swiper? Support Vladimir's work by donating or pledging on patreon:[22m[39m
+ > [32mhttps://patreon.com/vladimirkharlampidi[0m
+
++ swiper@5.2.1
+updated 1 package in 1.19s
