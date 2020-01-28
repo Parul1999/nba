@@ -3,6 +3,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
+###'npm install'
+Run npm install prior to npm install because of some missing scripts, otherwise gives an error
 
 ### `npm start`
 
